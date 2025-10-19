@@ -1,22 +1,31 @@
 ﻿using System.Globalization;
-using Microsoft.Maui.Controls;
+using CommunityToolkit.Maui.Converters;
 
 namespace eShop.ClientApp.Converters;
 
-public class WebNavigatingEventArgsConverter : IValueConverter
+public class WebNavigatingEventArgsConverter : ICommunityToolkitValueConverter
 {
+    public Type FromType => typeof(WebNavigatingEventArgs);
+
+    public Type ToType => typeof(string);
+
+    public object DefaultConvertReturnValue => string.Empty;
+
+    public object DefaultConvertBackReturnValue => null;
+
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is WebNavigatingEventArgs eventArgs)
+        var eventArgs = value as WebNavigatingEventArgs;
+        if (eventArgs == null)
         {
-            return eventArgs.Url ?? string.Empty;
+            throw new ArgumentException("Expected WebNavigatingEventArgs as value", "value");
         }
 
-        return string.Empty;
+        return eventArgs.Url;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        throw new NotImplementedException("ConvertBack is not supported for WebNavigatingEventArgsConverter.");
+        throw new NotImplementedException();
     }
 }

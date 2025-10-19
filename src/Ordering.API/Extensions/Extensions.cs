@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-internal static class Extensions
+﻿internal static class Extensions
 {
     public static void AddApplicationServices(this IHostApplicationBuilder builder)
     {
@@ -42,7 +40,10 @@ internal static class Extensions
         });
 
         // Register the command validators for the validator behavior (validators based on FluentValidation library)
-        services.AddValidatorsFromAssemblyContaining<CancelOrderCommandValidator>();
+        services.AddSingleton<IValidator<CancelOrderCommand>, CancelOrderCommandValidator>();
+        services.AddSingleton<IValidator<CreateOrderCommand>, CreateOrderCommandValidator>();
+        services.AddSingleton<IValidator<IdentifiedCommand<CreateOrderCommand, bool>>, IdentifiedCommandValidator>();
+        services.AddSingleton<IValidator<ShipOrderCommand>, ShipOrderCommandValidator>();
 
         services.AddScoped<IOrderQueries, OrderQueries>();
         services.AddScoped<IBuyerRepository, BuyerRepository>();
