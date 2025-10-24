@@ -1,142 +1,238 @@
-# eShop Reference Application - "AdventureWorks"
+# Introduction to .NET Aspire
 
-A reference .NET application implementing an e-commerce website using a services-based architecture using [.NET Aspire](https://learn.microsoft.com/dotnet/aspire/).
+![What is .NET Aspire?](img/aspire_intro.png)
+
+## What is .NET Aspire?
+
+.NET Aspire is a comprehensive stack for building cloud-native applications. It provides:
+
+- **Tools and Templates**: For creating observable, production-ready distributed applications
+- **App Model**: A code-first approach defining your application's architecture
+- **Unified Development**: Single source of truth for services, resources, and connections
+
+## Core Features
+
+### 1. Unified Toolchain
+- One-command local debugging
+- Consistent deployment across platforms:
+  - Kubernetes clusters
+  - Cloud providers
+  - On-premises servers
+- Same composition model everywhere
+
+### 2. Key Capabilities
+
+#### AppHost Orchestration
+- Define services in code
+- Manage dependencies
+- Configure applications
+- Control deployment flows
+
+#### Rich Integrations
+- Extensive NuGet package ecosystem
+- Standardized service interfaces
+- Pre-built components for common scenarios
+
+#### Consistent Development Experience
+- Visual Studio integration
+- VS Code support
+- Command-line interface (CLI)
+- Cross-platform compatibility
+
+## Extensibility
+
+.NET Aspire is designed for customization:
+- Adaptable APIs
+- Flexible infrastructure integration
+- Customizable service configurations
+- Extensible workflow patterns
+
+## Development Workflow
+
+1. **Local Development**
+   - Launch entire application stack
+   - Debug multiple services
+   - Monitor performance
+   - Test integrations
+
+2. **Deployment Options**
+   - Container orchestration
+   - Cloud services
+   - On-premises hosting
+   - Hybrid scenarios
+
+3. **Observability**
+   - Built-in monitoring
+   - Distributed tracing
+   - Performance metrics
+   - Logging integration
+
+## Documentation and Resources
+- [Aspire Overview](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview)
+- [Architecture Overview](https://learn.microsoft.com/en-us/dotnet/aspire/architecture/overview)
+- [Orchestration Overview](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/app-host-overview)
+- [Integrations Guide](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/integrations-overview)
+- [Dashboard Overview](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/dashboard/overview)
+- [Deployment Guide](https://learn.microsoft.com/en-us/dotnet/aspire/deployment/overview)
+
+# Getting started
+
+# 1. Local Dev Environment
+
+Clone the eShop repository: https://github.com/petr-rudzenkou/eShop
+
+## Prerequisites
+1. [.NET 9](https://dotnet.microsoft.com/en-us/download)
+2. [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
+   - Windows
+     ```powershell
+     winget install --id Microsoft.AzureCLII
+     ```
+   - macOS
+     ```bash
+     brew update && brew install azure-cli
+     ```
+3. [Aspire CLI](https://learn.microsoft.com/en-us/dotnet/aspire/cli/install)
+     ```powershell
+     dotnet tool install -g Aspire.Cli --prerelease
+     ```
+4. OCI compliant container runtime:
+   - Docker
+      - [Install Docker Desktop on Windows](https://docs.docker.com/desktop/setup/install/windows-install/)
+      - [Install Docker Desktop on Mac](https://docs.docker.com/desktop/setup/install/mac-install/)
+   - Podman
+      - [Podman Installation Instructions](https://podman.io/docs/installation)
+      - [Podman for Windows guide](https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md)
+5. Integrated Developer Environment (IDE) or code editor:
+   - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) version 17.9 or higher
+   - [Visual Studio Code](https://code.visualstudio.com/)
+     - Extension: [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+
+# 2. Exploring Runtime Architecture
+
+## eShop Reference Application
 
 ![eShop Reference Application architecture diagram](img/eshop_architecture.png)
 
-![eShop homepage screenshot](img/eshop_homepage.png)
+## Running the Project
 
-## Getting Started
+1. Start the application by running:
+   ```
+   dotnet run --project src/eShop.AppHost
+   ```
 
-This version of eShop is based on .NET 9. 
+2. Watch the console output for initialization messages
 
-Previous eShop versions:
-* [.NET 8](https://github.com/dotnet/eShop/tree/release/8.0)
+3. Look for the dashboard URL in the console output (typically something like `https://localhost:19888/login?t=4f08cd9d2bfc2a0ee873fdb8c7bf11e6`)
 
-### Prerequisites
+4. Open the Aspire dashboard in your browser to examine the application structure, logs, traces.
 
-- Clone the eShop repository: https://github.com/dotnet/eshop
-- [Install & start Docker Desktop](https://docs.docker.com/engine/install/)
+5. Check the running containers:
+- Docker:
+    ```
+    docker ps
+    ```
+- Podman:
+    ```
+    podman ps
+    ```
 
-#### Windows with Visual Studio
-- Install [Visual Studio 2022 version 17.10 or newer](https://visualstudio.microsoft.com/vs/).
-  - Select the following workloads:
-    - `ASP.NET and web development` workload.
-    - `.NET Aspire SDK` component in `Individual components`.
-    - Optional: `.NET Multi-platform App UI development` to run client apps
+![Container list](img/container_list.png)
 
-Or
+## Troubleshooting Common Issues
 
-- Run the following commands in a Powershell & Terminal running as `Administrator` to automatically configure your environment with the required tools to build and run this application. (Note: A restart is required and included in the script below.)
+### Unhealthy resources
+Give some time for the services to warm-up
 
-```powershell
-install-Module -Name Microsoft.WinGet.Configuration -AllowPrerelease -AcceptLicense -Force
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-get-WinGetConfiguration -file .\.configurations\vside.dsc.yaml | Invoke-WinGetConfiguration -AcceptConfigurationAgreements
-```
+### SSL Certificate Issues
+If you encounter SSL/TLS connection errors, run:
+    ```
+    dotnet dev-certs https --trust
+    ```
 
-Or
+### Port Conflicts
+If you experience port conflicts:
+1. Stop all running Docker containers:
+   ```
+   docker stop $(docker ps -q)
+   ```
+2. Re-run the AppHost project
 
-- From Dev Home go to `Machine Configuration -> Clone repositories`. Enter the URL for this repository. In the confirmation screen look for the section `Configuration File Detected` and click `Run File`.
+### Note
+Make sure you've completed all the setup requirements from the Local Dev Environment guide before running the project.
 
-#### Mac, Linux, & Windows without Visual Studio
-- Install the latest [.NET 9 SDK](https://dot.net/download?cid=eshop)
+## Documentation and Resources
+- [Aspire Overview](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview)
+- [Architecture Overview](https://learn.microsoft.com/en-us/dotnet/aspire/architecture/overview)
+- [Orchestration Overview](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/app-host-overview)
+- [Integrations Overview](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/integrations-overview)
+- [Networking Overview](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/networking-overview)
+- [Dashboard Overview](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/dashboard/overview)
 
-Or
+# 3. Publishing and Deployement
 
-- Run the following commands in a Powershell & Terminal running as `Administrator` to automatically configuration your environment with the required tools to build and run this application. (Note: A restart is required after running the script below.)
+## 1. Aspire CLI (Preview)
+The Aspire Command Line Interface will provide enhanced capabilities for:
 
-##### Install Visual Studio Code and related extensions
-```powershell
-install-Module -Name Microsoft.WinGet.Configuration -AllowPrerelease -AcceptLicense  -Force
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-get-WinGetConfiguration -file .\.configurations\vscode.dsc.yaml | Invoke-WinGetConfiguration -AcceptConfigurationAgreements
-```
+### Features
+- Project scaffolding and templates
+- Local development orchestration
+- Enhanced Publish/Deploy Semantics
+- Support for generation of IaC artifacts for multiple providers (Bicep, Docker Compose, K8S, Terraform)
+- Broader deployment targets, including non-Azure environments.
 
-> Note: These commands may require `sudo`
+### How to install?
 
-- Optional: Install [Visual Studio Code with C# Dev Kit](https://code.visualstudio.com/docs/csharp/get-started)
-- Optional: Install [.NET MAUI Workload](https://learn.microsoft.com/dotnet/maui/get-started/installation?tabs=visual-studio-code)
+    ```
+    dotnet tool install -g Aspire.Cli --prerelease
+    ```
 
-> Note: When running on Mac with Apple Silicon (M series processor), Rosetta 2 for grpc-tools. 
+## 1. Aspire to Azure (Preview)
 
-### Running the solution
+To get started with the Aspire Azure hosting integration, install the 📦 Aspire.Hosting.AppContainers NuGet package in the AppHost project.
 
-> [!WARNING]
-> Remember to ensure that Docker is started
+    ```
+    dotnet add package Aspire.Hosting.Azure.AppContainers --prerelease
+    ```
 
-* (Windows only) Run the application from Visual Studio:
- - Open the `eShop.Web.slnf` file in Visual Studio
- - Ensure that `eShop.AppHost.csproj` is your startup project
- - Hit Ctrl-F5 to launch Aspire
+After installing the package, add Azure Container App environment to your AppHost project using the AddAzureContainerAppEnvironment method:
 
-* Or run the application from your terminal:
-```powershell
-dotnet run --project src/eShop.AppHost/eShop.AppHost.csproj
-```
-then look for lines like this in the console output in order to find the URL to open the Aspire dashboard:
-```sh
-Login to the dashboard at: http://localhost:19888/login?t=uniquelogincodeforyou
-```
+    ```
+    var aca = builder.AddAzureContainerAppEnvironment("aca-env");
+    ```
 
-> You may need to install ASP.NET Core HTTPS development certificates first, and then close all browser tabs. Learn more at https://aka.ms/aspnet/https-trust-dev-cert
+To generate Bicep manifests from your Aspire application, use the aspire publish command:
+    ```
+    aspire publish -o aca-artifacts
+    ```
 
-### Azure Open AI
+To deploy Bicep manifests from your Aspire application, use the aspire deploy command:
+    ```
+    aspire deploy
+    ```
 
-When using Azure OpenAI, inside *eShop.AppHost/appsettings.json*, add the following section:
+## 1. Aspire to Kubernetes (Preview)
 
-```json
-  "ConnectionStrings": {
-    "OpenAi": "Endpoint=xxx;Key=xxx;"
-  }
-```
+To get started with the Aspire Kubernetes hosting integration, install the 📦 Aspire.Hosting.Kubernetes NuGet package in the AppHost project.
 
-Replace the values with your own. Then, in the eShop.AppHost *Program.cs*, set this value to **true**
+    ```
+    dotnet add package Aspire.Hosting.Kubernetes --prerelease
+    ```
 
-```csharp
-bool useOpenAI = false;
-```
+After installing the package, add a Kubernetes environment to your AppHost project using the AddKubernetesEnvironment method:
 
-Here's additional guidance on the [.NET Aspire OpenAI component](https://learn.microsoft.com/dotnet/aspire/azureai/azureai-openai-component?tabs=dotnet-cli). 
+    ```
+    var k8s = builder.AddKubernetesEnvironment("k8s");
+    ```
 
-### Use Azure Developer CLI
+To generate Kubernetes manifests from your Aspire application, use the aspire publish command:
+    ```
+    aspire publish -o k8s-artifacts
+    ```
 
-You can use the [Azure Developer CLI](https://aka.ms/azd) to run this project on Azure with only a few commands. Follow the next instructions:
-
-- Install the latest or update to the latest [Azure Developer CLI (azd)](https://aka.ms/azure-dev/install).
-- Log in `azd` (if you haven't done it before) to your Azure account:
-```sh
-azd auth login
-```
-- Initialize `azd` from the root of the repo.
-```sh
-azd init
-```
-- During init:
-  - Select `Use code in the current directory`. Azd will automatically detect the .NET Aspire project.
-  - Confirm `.NET (Aspire)` and continue.
-  - Select which services to expose to the Internet (exposing `webapp` is enough to test the sample).
-  - Finalize the initialization by giving a name to your environment.
-
-- Create Azure resources and deploy the sample by running:
-```sh
-azd up
-```
-Notes:
-  - The operation takes a few minutes the first time it is ever run for an environment.
-  - At the end of the process, `azd` will display the `url` for the webapp. Follow that link to test the sample.
-  - You can run `azd up` after saving changes to the sample to re-deploy and update the sample.
-  - Report any issues to [azure-dev](https://github.com/Azure/azure-dev/issues) repo.
-  - [FAQ and troubleshoot](https://learn.microsoft.com/azure/developer/azure-developer-cli/troubleshoot?tabs=Browser) for azd.
-
-## Contributing
-
-For more information on contributing to this repo, read [the contribution documentation](./CONTRIBUTING.md) and [the Code of Conduct](CODE-OF-CONDUCT.md).
-
-### Sample data
-
-The sample catalog data is defined in [catalog.json](https://github.com/dotnet/eShop/blob/main/src/Catalog.API/Setup/catalog.json). Those product names, descriptions, and brand names are fictional and were generated using [GPT-35-Turbo](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/chatgpt), and the corresponding [product images](https://github.com/dotnet/eShop/tree/main/src/Catalog.API/Pics) were generated using [DALL·E 3](https://openai.com/dall-e-3).
-
-## eShop on Azure
-
-For a version of this app configured for deployment on Azure, please view [the eShop on Azure](https://github.com/Azure-Samples/eShopOnAzure) repo.
+# Support Resources
+- [Aspire publishing and deployment overview](https://learn.microsoft.com/en-us/dotnet/aspire/deployment/overview)
+- [.NET Aspire Azure Container Apps Integration](https://learn.microsoft.com/en-us/dotnet/aspire/azure/configure-aca-environments)
+- [.NET Aspire Kubernetes Integration](https://learn.microsoft.com/en-us/dotnet/aspire/deployment/kubernetes-integration)
+- [.NET Aspire Docker Integration](https://learn.microsoft.com/en-us/dotnet/aspire/deployment/docker-integration)
+- [Aspire CLI](https://learn.microsoft.com/en-us/dotnet/aspire/cli/install)
