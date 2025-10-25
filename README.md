@@ -86,7 +86,7 @@ Make sure you've completed all the setup requirements from the Local Dev Environ
 
 # 3. Publishing and Deployement
 
-## 1. Aspire CLI (Preview)
+## 1. Aspire CLI
 The Aspire Command Line Interface will provide enhanced capabilities for:
 
 ### Features
@@ -104,43 +104,31 @@ The Aspire Command Line Interface will provide enhanced capabilities for:
 
 ## 1. Aspire to Azure (Preview)
 
-To get started with the Aspire Azure hosting integration, install the 📦 Aspire.Hosting.AppContainers NuGet package in the AppHost project.
-
-    ```
-    dotnet add package Aspire.Hosting.Azure.AppContainers
-    ```
-
-After installing the package, add Azure Container App environment to your AppHost project using the AddAzureContainerAppEnvironment method:
+Add Azure Container App environment to your AppHost project using the AddAzureContainerAppEnvironment method:
 
     ```
     var aca = builder.AddAzureContainerAppEnvironment("aca-env");
     ```
 
-To generate Bicep manifests from your Aspire application, use the aspire publish command:
+Generate Bicep manifests from your Aspire application:
     ```
     aspire publish -o aca-artifacts
     ```
 
-To deploy Bicep manifests from your Aspire application, use the aspire deploy command:
+Deploy Bicep manifests from your Aspire application:
     ```
     aspire deploy
     ```
 
 ## 1. Aspire to Kubernetes (Preview)
 
-To get started with the Aspire Kubernetes hosting integration, install the 📦 Aspire.Hosting.Kubernetes NuGet package in the AppHost project.
-
-    ```
-    dotnet add package Aspire.Hosting.Kubernetes --prerelease
-    ```
-
-After installing the package, add a Kubernetes environment to your AppHost project using the AddKubernetesEnvironment method:
+Add a Kubernetes environment to your AppHost project using the AddKubernetesEnvironment method:
 
     ```
     var k8s = builder.AddKubernetesEnvironment("k8s");
     ```
 
-To generate Kubernetes manifests from your Aspire application, use the aspire publish command:
+Generate Kubernetes manifests from your Aspire application:
     ```
     aspire publish -o k8s-artifacts
     ```
