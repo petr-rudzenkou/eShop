@@ -1,6 +1,27 @@
-﻿using eShop.AppHost;
+﻿using Azure.Provisioning.AppContainers;
+using Azure.Provisioning.ContainerRegistry;
+using eShop.AppHost;
 
 var builder = DistributedApplication.CreateBuilder(args);
+
+var aca = builder.AddAzureContainerAppEnvironment("eshop");
+aca.ConfigureInfrastructure(infra =>
+{
+    var resources = infra.GetProvisionableResources();
+
+    var containerRegistry = resources.OfType<ContainerRegistryService>().Single();
+    containerRegistry.Name = "acr-eshop";
+
+    var containerEnvironment = resources.OfType<ContainerAppManagedEnvironment>().Single();
+    containerEnvironment.Name = "aca-env-eshop";
+    // containerEnvironment.WorkloadProfiles.Add(new ContainerAppWorkloadProfile()
+    // {
+    //     WorkloadProfileType = "Dedicated",
+    //     Name = "aca-env-profile-eshop",
+    //     MinimumNodeCount = 1,
+    //     MaximumNodeCount = 3
+    // });
+});
 
 builder.AddForwardedHeaders();
 
