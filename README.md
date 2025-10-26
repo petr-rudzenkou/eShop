@@ -49,9 +49,10 @@ The application consists of:
 ## Running the Project
 
 1. Start the application by running:
-   ```
-   dotnet run --project src/eShop.AppHost
-   ```
+
+```bash
+aspire run
+```
 
 2. Watch the console output for initialization messages
 
@@ -60,14 +61,10 @@ The application consists of:
 4. Open the Aspire dashboard in your browser to examine the application structure, logs, traces.
 
 5. Check the running containers:
-- Docker:
-    ```
-    docker ps
-    ```
-- Podman:
-    ```
-    podman ps
-    ```
+
+```bash
+docker ps
+```
 
 ![Container list](img/container_list.png)
 
@@ -78,16 +75,19 @@ Give some time for the services to warm-up
 
 ### SSL Certificate Issues
 If you encounter SSL/TLS connection errors, run:
-    ```
-    dotnet dev-certs https --trust
-    ```
+
+```bash
+dotnet dev-certs https --trust
+```
 
 ### Port Conflicts
 If you experience port conflicts:
 1. Stop all running Docker containers:
-   ```
-   docker stop $(docker ps -q)
-   ```
+
+```bash
+docker stop $(docker ps -q)
+```
+
 2. Re-run the AppHost project
 
 ### Note
@@ -107,55 +107,66 @@ The Aspire Command Line Interface will provide enhanced capabilities for:
 
 ### How to install?
 
-    ```
-    dotnet tool install -g Aspire.Cli --prerelease
-    ```
+```bash
+dotnet tool install -g Aspire.Cli --prerelease
+```
 
-## 1. Aspire to Azure (Preview)
+## 1. Azure
 
 Add Azure Container App environment to your AppHost project using the AddAzureContainerAppEnvironment method:
 
-    ```
-    var aca = builder.AddAzureContainerAppEnvironment("aca-env");
-    ```
+```csharp
+var builder = DistributedApplication.CreateBuilder(args);
+builder.AddAzureContainerAppEnvironment("aca-env");
+```
 
 Generate Bicep manifests from your Aspire application:
-    ```
-    aspire publish -o aca-artifacts
-    ```
 
-Deploy Bicep manifests from your Aspire application:
-    ```
-    aspire deploy
-    ```
+```bash
+aspire publish -o aca-artifacts
+```
 
-## 1. Aspire to Kubernetes (Preview)
+Review the contents of the `aca-artifacts` folder, which will include Bicep templates for all application resources.
+
+Deploy Bicep manifests from your Aspire application (optional):
+
+```bash
+aspire deploy
+```
+
+## 2. Kubernetes
 
 Add a Kubernetes environment to your AppHost project using the AddKubernetesEnvironment method:
 
-    ```
-    var k8s = builder.AddKubernetesEnvironment("k8s");
-    ```
+```csharp
+var builder = DistributedApplication.CreateBuilder(args);
+builder.AddKubernetesEnvironment("k8s");
+```
 
 Generate Kubernetes manifests from your Aspire application:
-    ```
-    aspire publish -o k8s-artifacts
-    ```
 
-# Summary
+```bash
+aspire publish -o k8s-artifacts
+```
 
-## Advantages
- - Simplified orchestration
- - Set of abstractions
- - Unified configuration point
- - Rich Integrations
- - Dashboard
- - Excellent documentation and examples
+Review the contents of the `k8s-artifacts` folder, which will include a Helm chart with templates for all application containers.
 
-## Disadvantages
- - Not yet in demand in the market
- - Deployment capabilities are limited and many features are still in preview
+## 3. Docker Compose
 
+Add a Docker Compose environment to your AppHost project using the AddDockerComposeEnvironment method:
+
+```csharp
+var builder = DistributedApplication.CreateBuilder(args);
+builder.AddDockerComposeEnvironment("docker-compose");
+```
+
+Generate docker compose file from your Aspire application:
+
+```bash
+aspire publish -o docker-compose-artifacts
+```
+
+Review the contents of the `docker-compose-artifacts` folder, which will include docker-compose file defining all application containers.
 
 # Support Resources
 - [Aspire Overview](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview)
