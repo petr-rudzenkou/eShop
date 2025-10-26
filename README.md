@@ -37,6 +37,15 @@ Clone the eShop repository: https://github.com/petr-rudzenkou/eShop
 
 ![eShop Reference Application architecture diagram](img/eshop_architecture.png)
 
+The application consists of:
+ - 2 Frontends
+ - 5 APIs
+ - 2 Processors
+ - 4 Databases
+ - Cache
+ - Event Bus
+ - Monitoring system
+
 ## Running the Project
 
 1. Start the application by running:
@@ -132,6 +141,21 @@ Generate Kubernetes manifests from your Aspire application:
     ```
     aspire publish -o k8s-artifacts
     ```
+
+# Summary
+
+## Advantages
+ - Simplified orchestration
+ - Set of abstractions
+ - Unified configuration point
+ - Rich Integrations
+ - Dashboard
+ - Excellent documentation and examples
+
+## Disadvantages
+ - Not yet in demand in the market
+ - Deployment capabilities are limited and many features are still in preview
+
 
 # Support Resources
 - [Aspire Overview](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview)
