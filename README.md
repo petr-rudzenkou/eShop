@@ -71,6 +71,13 @@ If you encounter SSL/TLS connection errors, run:
 dotnet dev-certs https --trust
 ```
 
+### PUBLISHING FAILED: An error occurred trying to start process 'docker' with working directory
+This error occurs if you're using podman as the container runtime. By default Aspire uses docker. You'll need to tell Aspire to use posman:
+
+```bash
+aspire run ASPIRE_CONTAINER_RUNTIME=podman
+```
+
 ### Port Conflicts
 If you experience port conflicts:
 1. Stop all running Docker containers:
@@ -172,6 +179,15 @@ aspire publish -o docker-compose-artifacts
 
 Review the contents of the `docker-compose-artifacts` folder, which will include docker-compose file defining all application containers.
 
+### Troubleshooting Common Issues
+
+#### PUBLISHING FAILED: An error occurred trying to start process 'docker' with working directory
+This error occurs if you're using podman as the container runtime. By default Aspire uses docker. You'll need to tell Aspire to use posman:
+
+```bash
+aspire publish -o docker-compose-artifacts ASPIRE_CONTAINER_RUNTIME=podman
+```
+
 # Support Resources
 - [Aspire Overview](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview)
 - [Architecture Overview](https://learn.microsoft.com/en-us/dotnet/aspire/architecture/overview)
@@ -183,4 +199,4 @@ Review the contents of the `docker-compose-artifacts` folder, which will include
 - [.NET Aspire Azure Container Apps Integration](https://learn.microsoft.com/en-us/dotnet/aspire/azure/configure-aca-environments)
 - [.NET Aspire Kubernetes Integration](https://learn.microsoft.com/en-us/dotnet/aspire/deployment/kubernetes-integration)
 - [.NET Aspire Docker Integration](https://learn.microsoft.com/en-us/dotnet/aspire/deployment/docker-integration)
-- [Aspire CLI](https://learn.microsoft.com/en-us/dotnet/aspire/cli/install)
+- [Integrating AWS with .NET Aspire](https://aws.amazon.com/blogs/developer/integrating-aws-with-net-aspire/)
