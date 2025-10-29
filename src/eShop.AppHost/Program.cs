@@ -9,9 +9,6 @@ aca.ConfigureInfrastructure(infra =>
 {
     var resources = infra.GetProvisionableResources();
 
-    var containerRegistry = resources.OfType<ContainerRegistryService>().Single();
-    containerRegistry.Name = "acr-eshop";
-
     var containerEnvironment = resources.OfType<ContainerAppManagedEnvironment>().Single();
     containerEnvironment.Name = "aca-env-eshop";
     // containerEnvironment.WorkloadProfiles.Add(new ContainerAppWorkloadProfile()
@@ -22,6 +19,9 @@ aca.ConfigureInfrastructure(infra =>
     //     MaximumNodeCount = 3
     // });
 });
+
+// builder.AddDockerComposeEnvironment("docker-compose-env");
+// builder.AddKubernetesEnvironment("k8s-env");
 
 builder.AddForwardedHeaders();
 
