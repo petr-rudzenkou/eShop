@@ -6,27 +6,18 @@ Clone the eShop repository: https://github.com/petr-rudzenkou/eShop
 
 ## Prerequisites
 1. [.NET 9](https://dotnet.microsoft.com/en-us/download)
-2. [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
-   - Windows
-     ```powershell
-     winget install --id Microsoft.AzureCLII
-     ```
-   - macOS
-     ```bash
-     brew update && brew install azure-cli
-     ```
-3. [Aspire CLI](https://learn.microsoft.com/en-us/dotnet/aspire/cli/install)
+2. [Aspire CLI](https://learn.microsoft.com/en-us/dotnet/aspire/cli/install)
      ```powershell
      dotnet tool install -g Aspire.Cli --prerelease
      ```
-4. OCI compliant container runtime:
+3. OCI compliant container runtime:
    - Docker
       - [Install Docker Desktop on Windows](https://docs.docker.com/desktop/setup/install/windows-install/)
       - [Install Docker Desktop on Mac](https://docs.docker.com/desktop/setup/install/mac-install/)
    - Podman
       - [Podman Installation Instructions](https://podman.io/docs/installation)
       - [Podman for Windows guide](https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md)
-5. Integrated Developer Environment (IDE) or code editor:
+4. Integrated Developer Environment (IDE) or code editor:
    - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) version 17.9 or higher
    - [Visual Studio Code](https://code.visualstudio.com/)
      - Extension: [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
@@ -113,6 +104,7 @@ dotnet tool install -g Aspire.Cli --prerelease
 
 ## 1. Azure
 
+### Publish
 Add Azure Container App environment to your AppHost project using the AddAzureContainerAppEnvironment method:
 
 ```csharp
@@ -128,13 +120,23 @@ aspire publish -o aca-artifacts
 
 Review the contents of the `aca-artifacts` folder, which will include Bicep templates for all application resources.
 
-Deploy Bicep manifests from your Aspire application (optional):
+### Deploy (Optional)
+
+[Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) should be installed to perform this step.
+
+```bash
+az login
+```
+
+Deploy Aspire application to Azure:
 
 ```bash
 aspire deploy
 ```
 
 ## 2. Kubernetes
+
+### Publish
 
 Add a Kubernetes environment to your AppHost project using the AddKubernetesEnvironment method:
 
@@ -152,6 +154,8 @@ aspire publish -o k8s-artifacts
 Review the contents of the `k8s-artifacts` folder, which will include a Helm chart with templates for all application containers.
 
 ## 3. Docker Compose
+
+### Publish
 
 Add a Docker Compose environment to your AppHost project using the AddDockerComposeEnvironment method:
 
