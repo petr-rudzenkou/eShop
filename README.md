@@ -100,7 +100,7 @@ The Aspire Command Line Interface will provide enhanced capabilities for:
 - Project scaffolding and templates
 - Local development orchestration
 - Enhanced Publish/Deploy Semantics
-- Support for generation of IaC artifacts for multiple providers (Bicep, Docker Compose, K8S, Terraform)
+- Support for generation of IaC artifacts for multiple providers (Bicep, K8S, Docker Compose)
 - Broader deployment targets, including non-Azure environments.
 
 ### How to install?
