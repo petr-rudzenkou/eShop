@@ -4,25 +4,6 @@ using eShop.AppHost;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-// var aca = builder.AddAzureContainerAppEnvironment("eshop");
-// aca.ConfigureInfrastructure(infra =>
-// {
-//     var resources = infra.GetProvisionableResources();
-
-//     var containerEnvironment = resources.OfType<ContainerAppManagedEnvironment>().Single();
-//     containerEnvironment.Name = "aca-env-eshop";
-//     containerEnvironment.WorkloadProfiles.Add(new ContainerAppWorkloadProfile()
-//     {
-//         WorkloadProfileType = "Dedicated",
-//         Name = "aca-env-profile-eshop",
-//         MinimumNodeCount = 1,
-//         MaximumNodeCount = 3
-//     });
-// });
-
-// builder.AddDockerComposeEnvironment("docker-compose-env");
-// builder.AddKubernetesEnvironment("k8s-env");
-
 builder.AddForwardedHeaders();
 
 var redis = builder.AddRedis("redis");
