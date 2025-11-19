@@ -5,7 +5,7 @@
 Clone the eShop repository: https://github.com/petr-rudzenkou/eShop
 
 ## Prerequisites
-1. [.NET 9](https://dotnet.microsoft.com/en-us/download)
+1. [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 2. [Aspire CLI](https://learn.microsoft.com/en-us/dotnet/aspire/cli/install)
      ```powershell
      dotnet tool install -g Aspire.Cli --prerelease
