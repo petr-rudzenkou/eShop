@@ -202,3 +202,4 @@ aspire publish -o docker-compose-artifacts ASPIRE_CONTAINER_RUNTIME=podman
 - [Aspire Azure Blob Storage integration](https://learn.microsoft.com/en-us/dotnet/aspire/storage/azure-storage-blobs-integration)
 - [Aspire Azure Cosmos DB integration](https://learn.microsoft.com/en-us/dotnet/aspire/database/azure-cosmos-db-integration)
 - [Integrating AWS with .NET Aspire](https://aws.amazon.com/blogs/developer/integrating-aws-with-net-aspire/)
+- [.NET Aspire - Terraform support](https://github.com/lolochristen/Aspire.Terraform)
